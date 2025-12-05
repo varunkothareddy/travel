@@ -1,16 +1,16 @@
-/* Global reset */
+/* ========== GLOBAL RESET ========== */
 * {
   box-sizing: border-box;
 }
 
-/* Page background & font */
+/* ========== PAGE BACKGROUND & FONT ========== */
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #eef6ff;
 }
 
-/* Header */
+/* ========== HEADER ========== */
 header {
   background-color: #7fffd4;
   padding: 15px 0;
@@ -23,22 +23,25 @@ header h1 {
   letter-spacing: 2px;
 }
 
-/* Center form */
+/* ========== FORM WRAPPER (CENTER EVERYTHING) ========== */
 .form-wrapper {
   min-height: calc(100vh - 70px);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
-/* Make card able to show an overlay while animating */
+/* ========== RESPONSIVE FORM CARD ========== */
 .d1 {
   background-color: #d4f3f3;
-  padding: 40px 50px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 30px;
+  width: 90%;              /* responsive width on small screens */
+  max-width: 400px;        /* limit width on large screens */
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.12);
+  position: relative;      /* needed for dark overlay */
   text-align: center;
-  position: relative;           /* 👈 important for overlay */
 }
 
 /* Dark blur overlay while animation runs */
@@ -48,7 +51,7 @@ header h1 {
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(3px);
-  border-radius: 8px;
+  border-radius: 12px;
   z-index: 1;
 }
 
@@ -60,27 +63,27 @@ header h1 {
   z-index: 2;
 }
 
-
-/* Inputs */
+/* ========== INPUTS / SELECT ========== */
 .d1 input[type="text"],
 .d1 input[type="email"],
 .d1 input[type="number"],
-.d1 input[type="date"] {
-  width: 260px;
-  padding: 8px 10px;
-  margin: 8px 0;
-  border-radius: 4px;
+.d1 input[type="date"],
+.d1 select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
   border: none;
   background-color: #f5feff;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* --- Animated Submit Button Styling Upgrade --- */
+/* ========== ANIMATED SUBMIT BUTTON ========== */
 .button {
   background: linear-gradient(135deg, #6EE0C6, #40BFA3);
-  height: 60px;
-  width: 200px;
+  height: 55px;
+  width: 100%;
   text-align: center;
   position: relative;
   margin: 16px auto 0;
@@ -132,7 +135,7 @@ header h1 {
   100% { box-shadow: 0 8px 18px rgba(0,0,0,0.18); }
 }
 
-/* Progress bar for anime.js sequence */
+/* ========== PROGRESS BAR (Anime.js) ========== */
 .progress-bar {
   position: absolute;
   height: 10px;
@@ -145,7 +148,7 @@ header h1 {
   background: #71DFBE;
 }
 
-/* Checkmark SVG */
+/* ========== CHECKMARK SVG ========== */
 .check-svg {
   width: 30px;
   position: absolute;
@@ -163,4 +166,69 @@ header h1 {
   stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ========== RESPONSIVE TWEAKS ========== */
+
+/* Mobile: smaller than 450px */
+@media (max-width: 450px) {
+
+  header h1 {
+    font-size: 28px;
+  }
+
+  .d1 {
+    padding: 22px;
+    border-radius: 10px;
+  }
+
+  .d1 input[type="text"],
+  .d1 input[type="email"],
+  .d1 input[type="number"],
+  .d1 input[type="date"],
+  .d1 select {
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .button {
+    height: 50px;
+  }
+
+  .text {
+    font-size: 16px;
+  }
+
+  .check-svg {
+    width: 25px;
+  }
+}
+
+/* Ultra-small screens (< 350px width) */
+@media (max-width: 350px) {
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  .d1 {
+    padding: 18px;
+  }
+
+  .button {
+    height: 45px;
+  }
+
+  .text {
+    font-size: 15px;
+  }
+
+  .d1 input[type="text"],
+  .d1 input[type="email"],
+  .d1 input[type="number"],
+  .d1 input[type="date"],
+  .d1 select {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
