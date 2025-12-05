@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 🔗 Your SheetDB endpoint
   const SHEET_URL = "https://sheetdb.io/api/v1/z1ir5g6powleo";
 
-  // 🧾 Form + elements
   const form = document.getElementById("sheetdb");
   const nameInput = document.getElementById("uname");
   const mobileInput = document.getElementById("umobile");
@@ -11,35 +9,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressEl = document.querySelector(".progress-bar");
   const checkPath = document.querySelector(".check");
   const checkSvg = document.querySelector(".check-svg");
-  const card = document.querySelector(".d1"); // the form card
+  const card = document.querySelector(".d1");
 
-  // Hide check initially
+  // sounds (optional)
+  const clickSound = document.getElementById("clickSound");
+  const successSound = document.getElementById("successSound");
+
+  // theme toggle
+  const themeToggle = document.getElementById("themeToggle");
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    themeToggle.textContent = document.body.classList.contains("dark")
+      ? "☀️"
+      : "🌙";
+  });
+
+  // hide check initially
   checkSvg.style.opacity = "0";
 
-  // Prepare SVG path for drawing animation
+  // prepare SVG path
   const offset = anime.setDashoffset(checkPath);
   checkPath.setAttribute("stroke-dashoffset", offset);
 
-  // 🧼 Reset everything back to normal
+  // reset visuals back to normal
   function resetVisualState() {
-    // Reset button appearance
     textEl.style.opacity = "1";
-    submitBtn.style.width = "200px";
-    submitBtn.style.height = "60px";
+    submitBtn.style.width = "100%"; // matches CSS
+    submitBtn.style.height = ""; // let CSS control
 
-    // Reset progress bar
     progressEl.style.width = "0px";
-    progressEl.style.height = "10px";
+    progressEl.style.height = "8px";
 
-    // Hide checkmark
     checkSvg.style.opacity = "0";
     checkPath.setAttribute("stroke-dashoffset", offset);
 
-    // Remove dark overlay
     card.classList.remove("animating");
   }
 
-  // 🎬 Anime.js timeline for the button + bar + tick
+  // simple confetti burst
+  function fireConfetti() {
+    if (typeof confetti !== "function") return;
+    confetti({
+      particleCount: 90,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
+
+  // anime.js timeline
   const basicTimeline = anime.timeline({
     autoplay: false
   });
@@ -85,41 +102,50 @@ document.addEventListener("DOMContentLoaded", () => {
       easing: "easeInOutSine"
     });
 
-  // ✅ After full animation finishes
+  // after animation finishes
   basicTimeline.finished.then(() => {
-    // Show checkmark
     checkSvg.style.opacity = "1";
 
-    // After 1.5 seconds, reset back to original SUBMIT state
+    // success sound
+    if (successSound) {
+      successSound.currentTime = 0;
+      successSound.play();
+    }
+
+    // confetti
+    fireConfetti();
+
+    // reset back after short delay
     setTimeout(() => {
       resetVisualState();
     }, 1500);
   });
 
-  // 🚀 Handle click on the animated submit button
+  // main handler
   async function handleSubmitClick() {
-    const name = nameInput.value.trim();
+    // prevent double-click during anim
+    if (card.classList.contains("animating")) return;
+
     const mobile = mobileInput.value.trim();
 
-    // Prevent double-click during animation
-    if (card.classList.contains("animating")) {
-      return;
-    }
-
-    // 10-digit mobile validation
+    // 10-digit validation
     if (mobile.length !== 10 || !/^[0-9]+$/.test(mobile)) {
       alert("Please enter correct mobile number");
       return;
     }
 
-    // Show dark overlay + clean state
+    // click sound
+    if (clickSound) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+
     resetVisualState();
     card.classList.add("animating");
 
-    // Start animation
     basicTimeline.restart();
 
-    // Prepare form data for SheetDB
+    // send data to SheetDB
     const formData = new FormData(form);
 
     try {
@@ -128,17 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData
       });
       await response.json();
-
-      // Clear inputs after successful submit
       form.reset();
     } catch (err) {
       console.error(err);
       alert("Something went wrong. Please try again.");
-      // Reset UI on error as well
       resetVisualState();
     }
   }
 
-  // 🎯 Click handler for the button (not form submit)
   submitBtn.addEventListener("click", handleSubmitClick);
 });
