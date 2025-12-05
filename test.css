@@ -1,234 +1,141 @@
-/* ========== GLOBAL RESET ========== */
+/* ---------------- GLOBAL ---------------- */
 * {
   box-sizing: border-box;
 }
 
-/* ========== PAGE BACKGROUND & FONT ========== */
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #eef6ff;
+  font-family: Arial, sans-serif;
+  background-color: #e9f3ff;
 }
 
-/* ========== HEADER ========== */
+/* ---------------- HEADER ---------------- */
 header {
   background-color: #7fffd4;
-  padding: 15px 0;
+  padding: 18px;
   text-align: center;
 }
 
 header h1 {
   margin: 0;
-  font-size: 40px;
+  font-size: clamp(22px, 5vw, 40px);
+  font-weight: bold;
   letter-spacing: 2px;
 }
 
-/* ========== FORM WRAPPER (CENTER EVERYTHING) ========== */
+/* ---------------- CONTAINER ---------------- */
 .form-wrapper {
-  min-height: calc(100vh - 70px);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 4vw;
+  min-height: calc(100vh - 70px);
 }
 
-/* ========== RESPONSIVE FORM CARD ========== */
+/* ---------------- FORM CARD ---------------- */
 .d1 {
   background-color: #d4f3f3;
-  padding: 30px;
-  width: 90%;              /* responsive width on small screens */
-  max-width: 400px;        /* limit width on large screens */
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.12);
-  position: relative;      /* needed for dark overlay */
+  width: min(90vw, 420px);          /* responsive dynamic width */
+  padding: clamp(20px, 4vw, 40px);
+  border-radius: 14px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
   text-align: center;
-}
-
-/* Dark blur overlay while animation runs */
-.d1.animating::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(3px);
-  border-radius: 12px;
-  z-index: 1;
-}
-
-/* Put animated elements above the overlay */
-.button,
-.progress-bar,
-.check-svg {
   position: relative;
-  z-index: 2;
+  transition: transform .25s ease;
 }
 
-/* ========== INPUTS / SELECT ========== */
-.d1 input[type="text"],
-.d1 input[type="email"],
-.d1 input[type="number"],
-.d1 input[type="date"],
-.d1 select {
+/* Prevent shrinking on small screens */
+.d1 * {
+  transform: scale(1);
+}
+
+/* ---------------- INPUTS ---------------- */
+.d1 input {
   width: 100%;
-  padding: 12px;
+  padding: clamp(10px, 2.5vw, 14px);
   margin: 10px 0;
   border-radius: 6px;
   border: none;
-  background-color: #f5feff;
+  font-size: clamp(14px, 3.5vw, 18px);
   text-align: center;
-  font-size: 16px;
+  background: white;
 }
 
-/* ========== ANIMATED SUBMIT BUTTON ========== */
+/* ---------------- SUBMIT BUTTON ---------------- */
 .button {
-  background: linear-gradient(135deg, #6EE0C6, #40BFA3);
-  height: 55px;
   width: 100%;
-  text-align: center;
-  position: relative;
-  margin: 16px auto 0;
-  cursor: pointer;
-  border-radius: 12px;
-  overflow: hidden;
+  height: clamp(48px, 12vw, 60px);
+  background: linear-gradient(135deg, #6EE0C6, #40BFA3);
   border: none;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.35s ease;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.2);
-  animation: softPulse 2.5s infinite ease-in-out;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: glowPulse 2.5s infinite ease-in-out;
+  transition: .25s;
 }
 
-/* Text inside button */
 .text {
-  font: bold 1.1rem/1 poppins, Arial, sans-serif;
-  color: #ffffff;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-52%);
-  left: 0;
-  right: 0;
-  transition: letter-spacing .25s ease;
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: bold;
+  color: white;
 }
 
-/* Hover State */
-.button:hover {
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 15px 25px rgba(0, 255, 140, 0.35);
-  background: linear-gradient(135deg, #5BE7B5, #1FAA60);
+/* Hover for tablets + laptops only (not mobile) */
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: translateY(-6px);
+    box-shadow: 0px 10px 25px rgba(0, 255, 140, 0.4);
+  }
 }
 
-.button:hover .text {
-  letter-spacing: 2px;
-}
-
-/* Click press movement */
-.button:active {
-  transform: translateY(-2px) scale(1);
-  box-shadow: 0 6px 12px rgba(0, 255, 140, 0.25);
-}
-
-/* Soft pulse glow */
-@keyframes softPulse {
-  0%   { box-shadow: 0 8px 18px rgba(0,0,0,0.18); }
-  50%  { box-shadow: 0 12px 25px rgba(0,255,170,0.30); }
-  100% { box-shadow: 0 8px 18px rgba(0,0,0,0.18); }
-}
-
-/* ========== PROGRESS BAR (Anime.js) ========== */
+/* ---------------- ANIMATION ELEMENTS ---------------- */
 .progress-bar {
   position: absolute;
-  height: 10px;
+  height: 8px;
   width: 0;
-  right: 0;
-  top: 50%;
   left: 50%;
-  border-radius: 200px;
-  transform: translateY(-50%) translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
   background: #71DFBE;
+  border-radius: 20px;
+  z-index: 3;
 }
 
-/* ========== CHECKMARK SVG ========== */
 .check-svg {
-  width: 30px;
+  width: clamp(25px, 6vw, 35px);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  opacity: 0;               /* hidden until animation shows it */
-  transition: opacity .25s ease;
+  opacity: 0;
+  z-index: 3;
 }
 
 .check {
   fill: none;
   stroke: #1D1F20;
-  stroke-width: 4;
+  stroke-width: clamp(3px, 1vw, 4px);
   stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
-/* ========== RESPONSIVE TWEAKS ========== */
-
-/* Mobile: smaller than 450px */
-@media (max-width: 450px) {
-
-  header h1 {
-    font-size: 28px;
-  }
-
-  .d1 {
-    padding: 22px;
-    border-radius: 10px;
-  }
-
-  .d1 input[type="text"],
-  .d1 input[type="email"],
-  .d1 input[type="number"],
-  .d1 input[type="date"],
-  .d1 select {
-    padding: 10px;
-    font-size: 15px;
-  }
-
-  .button {
-    height: 50px;
-  }
-
-  .text {
-    font-size: 16px;
-  }
-
-  .check-svg {
-    width: 25px;
-  }
+/* ---------------- DIM BACKGROUND DURING ANIMATION ---------------- */
+.d1.animating::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(3px);
+  border-radius: 14px;
+  z-index: 2;
 }
 
-/* Ultra-small screens (< 350px width) */
-@media (max-width: 350px) {
-
-  header h1 {
-    font-size: 24px;
-  }
-
-  .d1 {
-    padding: 18px;
-  }
-
-  .button {
-    height: 45px;
-  }
-
-  .text {
-    font-size: 15px;
-  }
-
-  .d1 input[type="text"],
-  .d1 input[type="email"],
-  .d1 input[type="number"],
-  .d1 input[type="date"],
-  .d1 select {
-    font-size: 14px;
-    padding: 8px;
-  }
+/* ---------------- BUTTON GLOW ---------------- */
+@keyframes glowPulse {
+  0% { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+  50% { box-shadow: 0 12px 30px rgba(0,255,170,0.35); }
+  100% { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
 }
