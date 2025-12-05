@@ -50,7 +50,7 @@ header h1 {
 
 /* ========== FORM CARD (RESPONSIVE) ========== */
 .d1 {
-  background-color: #5F9EA0;
+  background-color: #E6E6FA;
   width: min(90vw, 420px);
   padding: clamp(20px, 4vw, 40px);
   border-radius: 14px;
@@ -229,4 +229,5 @@ body.dark .theme-toggle {
     padding: 18px;
   }
 }
+
 
