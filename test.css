@@ -1,4 +1,4 @@
-/* ---------------- GLOBAL ---------------- */
+/* ========== GLOBAL RESET ========== */
 * {
   box-sizing: border-box;
 }
@@ -7,13 +7,15 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #e9f3ff;
+  color: #000;
 }
 
-/* ---------------- HEADER ---------------- */
+/* ========== HEADER ========== */
 header {
   background-color: #7fffd4;
   padding: 18px;
   text-align: center;
+  position: relative;
 }
 
 header h1 {
@@ -23,7 +25,21 @@ header h1 {
   letter-spacing: 2px;
 }
 
-/* ---------------- CONTAINER ---------------- */
+/* theme toggle */
+.theme-toggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ========== FORM WRAPPER ========== */
 .form-wrapper {
   display: flex;
   justify-content: center;
@@ -32,24 +48,38 @@ header h1 {
   min-height: calc(100vh - 70px);
 }
 
-/* ---------------- FORM CARD ---------------- */
+/* ========== FORM CARD (RESPONSIVE) ========== */
 .d1 {
   background-color: #d4f3f3;
-  width: min(90vw, 420px);          /* responsive dynamic width */
+  width: min(90vw, 420px);
   padding: clamp(20px, 4vw, 40px);
   border-radius: 14px;
-  box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
   text-align: center;
   position: relative;
-  transition: transform .25s ease;
+  transition: transform 0.25s ease;
 }
 
-/* Prevent shrinking on small screens */
-.d1 * {
-  transform: scale(1);
+/* Dark blur overlay while animation runs */
+.d1.animating::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  border-radius: 14px;
+  z-index: 2;
 }
 
-/* ---------------- INPUTS ---------------- */
+/* keep animated elements on top */
+.button,
+.progress-bar,
+.check-svg {
+  position: relative;
+  z-index: 3;
+}
+
+/* ========== INPUTS ========== */
 .d1 input {
   width: 100%;
   padding: clamp(10px, 2.5vw, 14px);
@@ -58,14 +88,14 @@ header h1 {
   border: none;
   font-size: clamp(14px, 3.5vw, 18px);
   text-align: center;
-  background: white;
+  background: #ffffff;
 }
 
-/* ---------------- SUBMIT BUTTON ---------------- */
+/* ========== ANIMATED SUBMIT BUTTON ========== */
 .button {
   width: 100%;
   height: clamp(48px, 12vw, 60px);
-  background: linear-gradient(135deg, #6EE0C6, #40BFA3);
+  background: linear-gradient(135deg, #6ee0c6, #40bfa3);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -74,24 +104,50 @@ header h1 {
   align-items: center;
   justify-content: center;
   animation: glowPulse 2.5s infinite ease-in-out;
-  transition: .25s;
+  transition: 0.25s;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 .text {
   font-size: clamp(16px, 4vw, 20px);
   font-weight: bold;
-  color: white;
+  color: #ffffff;
+  transition: letter-spacing 0.25s ease;
 }
 
-/* Hover for tablets + laptops only (not mobile) */
+/* Hover only on devices with hover */
 @media (hover: hover) and (pointer: fine) {
   .button:hover {
     transform: translateY(-6px);
-    box-shadow: 0px 10px 25px rgba(0, 255, 140, 0.4);
+    box-shadow: 0px 12px 30px rgba(0, 255, 140, 0.35);
+    background: linear-gradient(135deg, #5be7b5, #1faa60);
+  }
+
+  .button:hover .text {
+    letter-spacing: 2px;
   }
 }
 
-/* ---------------- ANIMATION ELEMENTS ---------------- */
+/* Click press movement */
+.button:active {
+  transform: translateY(-2px) scale(1);
+  box-shadow: 0 6px 12px rgba(0, 255, 140, 0.25);
+}
+
+/* Button glow pulse */
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 12px 30px rgba(0, 255, 170, 0.35);
+  }
+  100% {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* ========== ANIMATION ELEMENTS ========== */
 .progress-bar {
   position: absolute;
   height: 8px;
@@ -99,9 +155,8 @@ header h1 {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: #71DFBE;
+  background: #71dfbe;
   border-radius: 20px;
-  z-index: 3;
 }
 
 .check-svg {
@@ -112,30 +167,65 @@ header h1 {
   transform: translate(-50%, -50%);
   pointer-events: none;
   opacity: 0;
-  z-index: 3;
+  transition: opacity 0.25s ease;
 }
 
 .check {
   fill: none;
-  stroke: #1D1F20;
+  stroke: #1d1f20;
   stroke-width: clamp(3px, 1vw, 4px);
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-/* ---------------- DIM BACKGROUND DURING ANIMATION ---------------- */
-.d1.animating::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(3px);
-  border-radius: 14px;
-  z-index: 2;
+/* ========== DARK MODE ========== */
+body.dark {
+  background-color: #020617;
+  color: #e5e7eb;
 }
 
-/* ---------------- BUTTON GLOW ---------------- */
-@keyframes glowPulse {
-  0% { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-  50% { box-shadow: 0 12px 30px rgba(0,255,170,0.35); }
-  100% { box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+body.dark header {
+  background-color: #0f766e;
+}
+
+body.dark .d1 {
+  background-color: #020617;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.9);
+}
+
+body.dark .d1 input {
+  background-color: #020617;
+  color: #e5e7eb;
+  border: 1px solid #1e293b;
+}
+
+body.dark .d1 input::placeholder {
+  color: #6b7280;
+}
+
+body.dark .button {
+  background: linear-gradient(135deg, #0ea5e9, #22c55e);
+}
+
+body.dark .button:hover {
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.5);
+}
+
+body.dark .theme-toggle {
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+/* ========== RESPONSIVE EXTRA TWEAKS ========== */
+@media (max-width: 450px) {
+  .d1 {
+    padding: 22px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 350px) {
+  .d1 {
+    padding: 18px;
+  }
 }
