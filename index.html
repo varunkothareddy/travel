@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>KUMAR TRAVELS</title>
-  <link rel="stylesheet" href="test.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <header>
   <h1>KUMAR TRAVELS</h1>
+  <!-- 🌙 / ☀️ theme toggle button -->
+  <button id="themeToggle" class="theme-toggle">🌙</button>
 </header>
 
 <main class="form-wrapper">
-  <!-- No action so browser can't redirect -->
   <form id="sheetdb">
     <div class="d1">
-      <input type="text" name="data[NAME]" id="uname" placeholder="Enter-Name" required><br>
-      <input type="text" name="data[MOBILE]" id="umobile" maxlength="10" placeholder="Mobile-Number" required><br>
-      <input type="email" name="data[EMAIL]" id="umail" placeholder="Enter-Email" required><br>
-      <input type="number" name="data[PERSONS]" id="upersons" placeholder="Num of persons" required><br>
-      <input type="date" name="data[DATE]" id="udate" required><br>
+      <input type="text" name="data[NAME]" id="uname" placeholder="Enter-Name" required /><br />
+      <input type="text" name="data[MOBILE]" id="umobile" maxlength="10" placeholder="Mobile-Number" required /><br />
+      <input type="email" name="data[EMAIL]" id="umail" placeholder="Enter-Email" required /><br />
+      <input type="number" name="data[PERSONS]" id="upersons" placeholder="Num of persons" required /><br />
+      <input type="date" name="data[DATE]" id="udate" required /><br />
 
-      <!-- IMPORTANT: type="button" so it doesn't submit by default -->
+      <!-- submit button (NOT type="submit") -->
       <button type="button" class="button" id="submitBtn">
         <div class="text">SUBMIT</div>
       </button>
@@ -34,9 +35,13 @@
   </form>
 </main>
 
-<!-- Anime.js first -->
+<!-- optional sounds -->
+<audio id="clickSound" src="click.mp3"></audio>
+<audio id="successSound" src="success.mp3"></audio>
+
+<!-- libs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-<!-- Your logic -->
-<script src="test.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
