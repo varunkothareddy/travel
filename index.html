@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KUMAR TRAVELS</title>
+  <link rel="stylesheet" href="test.css">
+</head>
+<body>
+
+<header>
+  <h1>KUMAR TRAVELS</h1>
+</header>
+
+<main class="form-wrapper">
+  <!-- No action so browser can't redirect -->
+  <form id="sheetdb">
+    <div class="d1">
+      <input type="text" name="data[NAME]" id="uname" placeholder="Enter-Name" required><br>
+      <input type="text" name="data[MOBILE]" id="umobile" maxlength="10" placeholder="Mobile-Number" required><br>
+      <input type="email" name="data[EMAIL]" id="umail" placeholder="Enter-Email" required><br>
+      <input type="number" name="data[PERSONS]" id="upersons" placeholder="Num of persons" required><br>
+      <input type="date" name="data[DATE]" id="udate" required><br>
+
+      <!-- IMPORTANT: type="button" so it doesn't submit by default -->
+      <button type="button" class="button" id="submitBtn">
+        <div class="text">SUBMIT</div>
+      </button>
+
+      <div class="progress-bar"></div>
+      <svg class="check-svg" viewBox="0 0 25 30">
+        <path class="check" d="M2,19.2C5.9,23.6,9.4,28,9.4,28L23,2" />
+      </svg>
+    </div>
+  </form>
+</main>
+
+<!-- Anime.js first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<!-- Your logic -->
+<script src="test.js"></script>
+</body>
+</html>
